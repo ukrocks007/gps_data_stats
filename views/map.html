@@ -1,0 +1,38 @@
+<div>
+  <div>
+    Total Distance: {{ total_distance }} KM <br />
+    Max Speed: {{ speed.max }} KM/h <br />
+    Avg Speed: {{ speed.avg }} KM/h<br />
+    Moving Time: ~{{ time }} Hours<br />
+    Elevation Min: {{ elevation.min }} M<br />
+    Elevation Max: {{ elevation.max }} M<br />
+    Elevation Avg: {{ elevation.avg }} M
+  </div>
+  <hr>
+  <div id="map" style="height:70%;align-self: center;width: 60%" ></div>
+  <script>
+        var map;
+        function initMap() {
+            const points=[ {{{points}}} ]
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: points.length ? points[points.length%2] : {lat:0,lng:0},
+          mapTypeId: 'terrain'
+        });
+        
+        var flightPlanCoordinates =points;
+        var flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+      }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key={{APIKEY}}&callback=initMap"
+      async defer></script>
+    </body>
+</div>
